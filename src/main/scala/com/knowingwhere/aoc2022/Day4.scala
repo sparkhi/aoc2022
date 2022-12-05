@@ -36,32 +36,33 @@ object Day4 extends App {
     val schedule2 = Schedule(schedule2Values.head.toInt, schedule2Values.tail.head.toInt)
     (schedule1, schedule2)
   }
-}
 
-case class Schedule(start: Int, end: Int) {
-  def isWhollyContained(another: Schedule): Boolean = {
-    if (end - start > another.end - another.start) {
-      if ((another.start >= start) && (another.end <= end)){
-        true
+  case class Schedule(start: Int, end: Int) {
+    def isWhollyContained(another: Schedule): Boolean = {
+      if (end - start > another.end - another.start) {
+        if ((another.start >= start) && (another.end <= end)){
+          true
+        } else {
+          false
+        }
       } else {
-        false
+        if ((start >= another.start) && (end <= another.end)){
+          true
+        } else {
+          false
+        }
       }
-    } else {
-      if ((start >= another.start) && (end <= another.end)){
-        true
-      } else {
+    }
+
+    def isAnyOverlap(another: Schedule): Boolean = {
+      val fullRange = Math.max(end, another.end) - Math.min(start, another.start)
+      val individualRangeSum = (end - start) + (another.end - another.start)
+      if (fullRange > individualRangeSum) {
         false
+      } else {
+        true
       }
     }
   }
-
-  def isAnyOverlap(another: Schedule): Boolean = {
-    val fullRange = Math.max(end, another.end) - Math.min(start, another.start)
-    val individualRangeSum = (end - start) + (another.end - another.start)
-    if (fullRange > individualRangeSum) {
-      false
-    } else {
-      true
-    }
-  }
 }
+
