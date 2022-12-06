@@ -49,7 +49,7 @@ object Day5 extends App {
 
 
   def createStacks(stackStrings: List[String]) = {
-    val stackArrangement = stackStrings.reverse.tail
+    val stackArrangement = stackStrings.reverse.tail //remove the line which has stack numbers in the input
     val grouped = stackArrangement.map(each => each.grouped(4).toList)
     val transposed = grouped.transpose
     val stacks: List[mutable.Stack[String]] = transposed.map(eachgroup => populateStack(eachgroup))
