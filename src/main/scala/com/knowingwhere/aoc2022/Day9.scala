@@ -11,13 +11,13 @@ object Day9 extends App {
 
   val initialHeadPosition = Position(0,0)
   val initialTailPosition = Position(0,0)
-  val positionAccumulator = List(Position(0,0))
+  val positionAccumulator = Set(Position(0,0))
 
   val part1rope = List(Position(0,0), Position(0,0))
-  moveRope(instructions, part1rope, positionAccumulator).toSet.size.pipe(println)
+  moveRope(instructions, part1rope, positionAccumulator).size.pipe(println)
 
   val part2Rope = List(Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0))
-  moveRope(instructions, part2Rope, positionAccumulator).toSet.size.pipe(println)
+  moveRope(instructions, part2Rope, positionAccumulator).size.pipe(println)
 
 
   /**
@@ -28,7 +28,7 @@ object Day9 extends App {
    * @return the list of positions where the tail has visited
    */
   @tailrec
-  def moveRope(instructions: List[String], rope: List[Position], positionAccumulator: List[Position]):List[Position] = {
+  def moveRope(instructions: List[String], rope: List[Position], positionAccumulator: Set[Position]):Set[Position] = {
 
     if (instructions.isEmpty) {
       positionAccumulator
@@ -60,12 +60,12 @@ object Day9 extends App {
    * @return Tuple2 containing the new position of rope and the tail position accumulation for next step
    */
   @tailrec
-  def moveRight(rope: List[Position], stepsRemaining: Int, positionAccumulator: List[Position]): (List[Position], List[Position])  = {
+  def moveRight(rope: List[Position], stepsRemaining: Int, positionAccumulator: Set[Position]): (List[Position], Set[Position])  = {
     if (stepsRemaining == 0) {
       rope -> positionAccumulator
     } else {
       val newRope = moveEachKnot(rope.tail, List(Position(rope.head.x + 1, rope.head.y)))
-      moveRight(newRope, stepsRemaining - 1, positionAccumulator :+ newRope.reverse.head)
+      moveRight(newRope, stepsRemaining - 1, positionAccumulator + newRope.reverse.head)
     }
   }
 
@@ -77,12 +77,12 @@ object Day9 extends App {
    * @return Tuple2 containing the new position of rope and the tail position accumulation for next step
    */
   @tailrec
-  def moveLeft(rope: List[Position], stepsRemaining: Int, positionAccumulator: List[Position]): (List[Position], List[Position])  = {
+  def moveLeft(rope: List[Position], stepsRemaining: Int, positionAccumulator: Set[Position]): (List[Position], Set[Position])  = {
     if (stepsRemaining == 0) {
       rope -> positionAccumulator
     } else {
       val newRope = moveEachKnot(rope.tail, List(Position(rope.head.x -1, rope.head.y)))
-      moveLeft(newRope, stepsRemaining - 1, positionAccumulator :+ newRope.reverse.head)
+      moveLeft(newRope, stepsRemaining - 1, positionAccumulator + newRope.reverse.head)
     }
   }
 
@@ -141,12 +141,12 @@ object Day9 extends App {
    * @return Tuple2 containing the new position of rope and the tail position accumulation for next step
    */
   @tailrec
-  def moveUp(rope: List[Position], stepsRemaining: Int, positionAccumulator: List[Position]): (List[Position], List[Position])  = {
+  def moveUp(rope: List[Position], stepsRemaining: Int, positionAccumulator: Set[Position]): (List[Position], Set[Position])  = {
     if (stepsRemaining == 0) {
       rope -> positionAccumulator
     } else {
       val newRope = moveEachKnot(rope.tail, List(Position(rope.head.x, rope.head.y + 1)))
-      moveUp(newRope, stepsRemaining - 1, positionAccumulator :+ newRope.reverse.head)
+      moveUp(newRope, stepsRemaining - 1, positionAccumulator + newRope.reverse.head)
     }
   }
 
@@ -158,16 +158,22 @@ object Day9 extends App {
    * @return Tuple2 containing the new position of rope and the tail position accumulation for next step
    */
   @tailrec
-  def moveDown(rope: List[Position], stepsRemaining: Int, positionAccumulator: List[Position]): (List[Position], List[Position])  = {
+  def moveDown(rope: List[Position], stepsRemaining: Int, positionAccumulator: Set[Position]): (List[Position], Set[Position])  = {
     if (stepsRemaining == 0) {
       rope -> positionAccumulator
     } else {
       val newRope = moveEachKnot(rope.tail, List(Position(rope.head.x, rope.head.y - 1)))
-      moveDown(newRope, stepsRemaining - 1, positionAccumulator :+ newRope.reverse.head)
+      moveDown(newRope, stepsRemaining - 1, positionAccumulator + newRope.reverse.head)
     }
   }
 
-  def isTouching(newHeadPosition: Position, tailPosition: Position): Boolean = {
-    Math.abs(newHeadPosition.x - tailPosition.x) <= 1 && Math.abs(newHeadPosition.y - tailPosition.y) <= 1
+  /**
+   * Are the 2 positions touching each other in either horizontal, vertical or diagonal direction
+   * @param positionOne First position for comparison
+   * @param positionTwo Second position for comparison
+   * @return Boolean indicating whether the 2 positions touch each other
+   */
+  def isTouching(positionOne: Position, positionTwo: Position): Boolean = {
+    Math.abs(positionOne.x - positionTwo.x) <= 1 && Math.abs(positionOne.y - positionTwo.y) <= 1
   }
 }

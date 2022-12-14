@@ -15,7 +15,7 @@ class Day9Test extends WordSpec with BeforeAndAfterEach{
 
     "correctly move the rope upwards 4 steps" in {
       val rope = List(Position(4,0), Position(3,0), Position(2,0), Position(1,0), Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0),Position(0,0))
-      val newRope = Day9.moveUp(rope, 4, List(Position(0, 0)))._1
+      val newRope = Day9.moveUp(rope, 4, Set(Position(0, 0)))._1
       newRope shouldBe List(Position(4,4), Position(4,3), Position(4,2), Position(3,2), Position(2,2),Position(1,1),Position(0,0),Position(0,0),Position(0,0),Position(0,0))
     }
   }
