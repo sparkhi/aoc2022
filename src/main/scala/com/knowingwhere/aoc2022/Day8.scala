@@ -1,6 +1,6 @@
 package com.knowingwhere.aoc2022
 
-import com.knowingwhere.aoc2022.util.Day8TreeVisibilityFinder
+import com.knowingwhere.aoc2022.util.{Day8TreeVisibilityFinder, Position}
 
 import scala.io.Source
 import scala.util.chaining.scalaUtilChainingOps
@@ -50,5 +50,4 @@ object Day8 extends App {
 
 }
 
-case class Position(x: Int, y:Int)
 
