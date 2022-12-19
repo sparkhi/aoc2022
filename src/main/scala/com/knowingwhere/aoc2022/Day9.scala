@@ -128,6 +128,8 @@ object Day9 extends App {
     } else {
       val previousKnot = newRopeAccumulator.reverse.head
       val newCurrentKnot = getNewKnotPosition(previousKnot, remainingPieceOfRope.head)
+      //FIXME: Optimization - if you know that the newCurrentKnot is exactly same as remainingPieceOfRope.head
+      // you know that subsequent knots are not going to move, just copy over and return
       moveEachKnot(remainingPieceOfRope.tail, newRopeAccumulator :+ newCurrentKnot)
     }
   }
