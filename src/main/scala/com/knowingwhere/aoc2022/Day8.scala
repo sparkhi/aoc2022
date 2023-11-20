@@ -48,6 +48,12 @@ object Day8 extends App {
     trees._1.map(Position(_, trees._2))
   }
 
+  //viewing distances from left to right
+  val leftVisibleDistances = treeHeightGrid.map(Day8TreeVisibilityFinder.getViewingDistanceAheadOfEachTree)
+//  leftVisibleDistances.pipe(println)
+  val leftVisibleDistancesWithIndex = leftVisibleDistances.zipWithIndex
+  leftVisibleDistancesWithIndex.pipe(println)
+
 }
 
 

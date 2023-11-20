@@ -32,4 +32,45 @@ object Day8TreeVisibilityFinder {
       }
     }
   }
+
+  /**
+   * return the forward viewing distances from each tree
+   * e.g.
+   * input heights of trees as 2,3,4,5 should return [1,1,1,0]
+   * input heights of trees as 2,5,5,4,7 should return [1,1,2,1,0]
+   * input heights of trees as 7,5,5,4,7 should return [4,1,2,1,0]
+   *
+   * @param treeline List with heights of trees
+   * @return List of forward viewing distances from each tree
+   */
+  def getViewingDistanceAheadOfEachTree(treeline: List[Int]) : List[Int] = {
+    val viewingDistances = findViewingDistances(treeline, List.empty[Int])
+    viewingDistances
+  }
+
+  @tailrec
+  private def findViewingDistances(treeline: List[Int], viewingDistances: List[Int]): List[Int] = {
+    if (treeline.isEmpty) {
+      viewingDistances
+    } else {
+      val currentHeight = treeline.head
+      val viewingDistance = findDistanceToNextBlockingTree(treeline, currentHeight, 0)
+      findViewingDistances(treeline.tail, viewingDistances :+ viewingDistance)
+    }
+  }
+
+  @tailrec
+  private def findDistanceToNextBlockingTree(treeline: List[Int], currentHeight: Int, distanceToTree: Int): Int = {
+    if (treeline.tail.isEmpty) {
+      distanceToTree
+    } else {
+      val newTreeLine = treeline.tail
+      if (newTreeLine.head < currentHeight) {
+        findDistanceToNextBlockingTree(newTreeLine, currentHeight, distanceToTree + 1)
+      } else {
+        distanceToTree + 1
+      }
+    }
+  }
+
 }

@@ -24,5 +24,24 @@ class Day8TreeVisibilityFinderTest extends WordSpec with BeforeAndAfterEach{
       visibleIndexes.size shouldBe 1
       visibleIndexes shouldEqual List(0)
     }
+
+    "find the tree visibility when they are in ascending order " in {
+      val visibleDistances = Day8TreeVisibilityFinder.getViewingDistanceAheadOfEachTree(List(2,3,4,5))
+      visibleDistances.size shouldBe 4
+      visibleDistances shouldEqual List(1,1,1,0)
+    }
+
+    "find the tree visibility when they are not in order " in {
+      val visibleDistances = Day8TreeVisibilityFinder.getViewingDistanceAheadOfEachTree(List(2,5,5,4,7))
+      visibleDistances.size shouldBe 5
+      visibleDistances shouldEqual List(1,1,2,1,0)
+    }
+
+    "find the tree visibility when they are not in any order " in {
+      val visibleDistances = Day8TreeVisibilityFinder.getViewingDistanceAheadOfEachTree(List(7,5,5,4,7))
+      visibleDistances.size shouldBe 5
+      visibleDistances shouldEqual List(4,1,2,1,0)
+    }
+
   }
 }
